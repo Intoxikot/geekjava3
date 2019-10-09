@@ -43,6 +43,14 @@ class FruitBox<T extends Fruit> {
         System.out.println(fruitName + " (" + item.getWeight() + "g) was added to box #" + this.hashCode()); // будем уведомлять пользователя о всех наших действиях
     }
 
+    // Пересыпать фрукты в другую коробку
+    void throwTo(FruitBox<T> box) {
+        for (Fruit f: fruits)
+            box.add((T) f);
+        fruits.clear();
+        System.out.println("all fruits from box #" + hashCode() + " was moved to box #" + box.hashCode());
+    }
+
     // Показать содержимое коробки с фруктами
     void show() {
         if (fruits.isEmpty())
@@ -60,7 +68,6 @@ class FruitBox<T extends Fruit> {
 
 public class FruitApp {
     public static void main(String[] args) {
-
         // Создать две коробки и сравнить их между собой
         FruitBox<Apple> appleBox = new FruitBox<>();
         appleBox.add(new Apple(140));
@@ -79,5 +86,24 @@ public class FruitApp {
         System.out.println();
 
         System.out.println("boxes are equal by weight: " + orangeBox.compare(appleBox));
+
+        // Добавим еще что-нибудь
+        appleBox.add(new Apple(200));
+        System.out.println();
+
+        // Попробуем пересыпать фрукты из одной коробки в другую
+        System.out.println("\t" + "before:");
+        System.out.print("source box: "); appleBox.show();
+
+        FruitBox<Apple> appleBox2 = new FruitBox<>();
+        System.out.print("target box: "); appleBox2.show();
+        System.out.println();
+
+        appleBox.throwTo(appleBox2);
+        System.out.println();
+
+        System.out.println("\t" + "result:");
+        System.out.print("source box: "); appleBox.show();
+        System.out.print("target box: "); appleBox2.show();
     }
 }
