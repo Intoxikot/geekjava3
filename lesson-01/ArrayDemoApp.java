@@ -1,4 +1,8 @@
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 class Array<T> {
     T[] data;
 
@@ -11,6 +15,11 @@ class Array<T> {
         T temp = data[first];
         data[first] = data[second];
         data[second] = temp;
+    }
+
+    // Метод, который преобразует массив в ArrayList;
+    List<T> getArrayList() {
+        return new ArrayList<T>(Arrays.asList(data));
     }
 
     void show() {
@@ -29,5 +38,9 @@ public class ArrayDemoApp {
         box.show();
         box.replace(2,4);
         box.show();
+
+        // Проверим преобразование массива к списку
+        List<Integer> list = box.getArrayList();
+        list.forEach(System.out::println);
     }
 }
