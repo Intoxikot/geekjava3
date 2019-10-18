@@ -2,3 +2,4 @@
 # Например /images/user.jpg, /core/images/user.jpg
 out
 .idea
+*.iml
