@@ -4,10 +4,7 @@ import ru.geekbrains.network.*;
 
 import javax.swing.*; // Swing является наиболее простым и наглядным инструментом для создания графического интерфейса (JavaFX - нет, не проще)
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.FocusAdapter;
-import java.awt.event.FocusEvent;
+import java.awt.event.*;
 import java.io.IOException;
 
 public class ClientWindow extends JFrame implements ActionListener, TCPConnectionListener { // JFrame - элемент Swing, ActionListener позволяет перехватывать нажатия, а наш TCPConnListener и тот вовсе, чтобы вообще обмазаться интерфейсами
@@ -28,16 +25,18 @@ public class ClientWindow extends JFrame implements ActionListener, TCPConnectio
         SwingUtilities.invokeLater(new Runnable() {
             @Override
             public void run() {
-                new ClientWindow(); // позволяет выполниться строке в потоке EDT (он идет следом за после главного потока-main)
+                new ClientWindow("username"); // позволяет выполниться строке в потоке EDT (он идет следом за после главного потока-main)
             }
         });
     }
 
     private JTextArea log = new JTextArea();
-    private JTextField fieldNickname = new JTextField("username");
+    // private JTextField fieldNickname = new JTextField("username"); // поле для ввода никнейма уже не актуально, имя передается при авторизации
     private JTextField fieldInput = new JTextField();
+    private String nickname;
 
-    private ClientWindow() {
+    public ClientWindow(String name) {
+        this.nickname = name;
         initWindow();
         setContentOptions();
         showWindow(); // инициализация окна завершена, теперь можно его отобразить на экран
@@ -66,21 +65,21 @@ public class ClientWindow extends JFrame implements ActionListener, TCPConnectio
         JPanel sendPanel = new JPanel(new BorderLayout());  // панель для отправки сообщений (никнейм + сообщение)
         add(sendPanel, BorderLayout.SOUTH); // юг - находится снизу (предполагается, что "компас" направлен на север и мы держим его перед собой)
         sendPanel.add(fieldInput, BorderLayout.CENTER); // эти поля крепяться на нашу панель (сама панель располагается снизу)
-        sendPanel.add(fieldNickname, BorderLayout.WEST);
+        //sendPanel.add(fieldNickname, BorderLayout.WEST);
         fieldInput.addActionListener(this);
 
         // Установить шрифт/оформление
         Font font = new Font("Courier New", java.awt.Font.PLAIN, 14); // начертание: BOLD - жирный, ITALIC - курсив
         log.setFont(font);
         fieldInput.setFont(font);
-        fieldNickname.setFont(font);
+        //fieldNickname.setFont(font);
 
         // При получении фокуса - очищает поле ввода имени
-        fieldNickname.addFocusListener(new FocusAdapter() {
+        /*fieldNickname.addFocusListener(new FocusAdapter() {
             @Override
             public void focusGained(FocusEvent e) { fieldNickname.setText("");
             }
-        });
+        });*/
     }
 
     // Вывод окна на экран
@@ -100,10 +99,9 @@ public class ClientWindow extends JFrame implements ActionListener, TCPConnectio
     @Override
     public void actionPerformed(ActionEvent e) {
         String msg = fieldInput.getText().trim(); // не забываем удалять лишние пробелы
-        String name = fieldNickname.getText().trim();
         if (msg.isEmpty()) return;
         fieldInput.setText(null);
-        connection.sendString(name + ": " + msg);
+        connection.sendString(nickname + ": " + msg);
     }
 
     @Override
@@ -136,6 +134,5 @@ public class ClientWindow extends JFrame implements ActionListener, TCPConnectio
                 log.setCaretPosition(log.getDocument().getLength()); // двигает экран вниз
             }
         });
-
     }
 }
