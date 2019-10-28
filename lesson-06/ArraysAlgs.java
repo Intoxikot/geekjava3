@@ -1,12 +1,12 @@
 import java.util.Arrays;
 
-// Решение задачи вручную без использования автоматических тестов
 public class ArraysAlgs {
 
     public static final int SEARCH_VALUE = 4;
     public static final int[] RESTRICTION_VALUES = new int[]{1,4};
 
     public static void main(String[] args) {
+        /* // Решение задачи вручную без использования автоматических тестов
         System.out.println(Arrays.toString(getArrayByRule(new int[]{1, 2, 3, 4, 5, 4, 1}))); // expected: [1]
         System.out.println(Arrays.toString(getArrayByRule(new int[]{1, 2, 3, 4, 5, 4, 1, 6}))); // expected: [1, 6]
         System.out.println(Arrays.toString(getArrayByRule(new int[]{1, 2, 3, 4, 5, 4, 1, 6, 7}))); // expected: [1, 6, 7]
@@ -17,6 +17,7 @@ public class ArraysAlgs {
         System.out.println(haveInclusionByRule(new int[]{1,4,1,4})); // true
         System.out.println(haveInclusionByRule(new int[]{1,4,1,4,3})); // false
         System.out.println(haveInclusionByRule(new int[]{1,1,1,1,1})); // false
+         */
     }
 
     // Вспомогательный метод, инкапсулирующий требования задачи
